@@ -103,6 +103,7 @@ public class CancelMQListener implements RocketMQListener<MessageExt> {
                 consumerLog.setMsgId(msgId);
                 consumerLog.setConsumerStatus(ShopCode.SHOP_MQ_MESSAGE_STATUS_PROCESSING.getCode());
                 consumerLog.setMsgBody(body);
+                consumerLog.setMsgKey(key);
                 consumerLog.setConsumerTimes(0);
                 mqConsumerLog = consumerLog;
                 // 将消息处理添加到数据库
@@ -139,6 +140,7 @@ public class CancelMQListener implements RocketMQListener<MessageExt> {
                 consumerLog.setMsgTag(tag);
                 consumerLog.setGroupName(groupName);
                 consumerLog.setMsgId(msgId);
+                consumerLog.setMsgKey(key);
                 consumerLog.setConsumerStatus(ShopCode.SHOP_MQ_MESSAGE_STATUS_FAIL.getCode());
                 consumerLog.setMsgBody(body);
                 consumerLog.setConsumerTimes(1);

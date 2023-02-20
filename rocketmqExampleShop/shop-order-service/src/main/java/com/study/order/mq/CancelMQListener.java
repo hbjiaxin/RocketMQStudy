@@ -30,6 +30,7 @@ public class CancelMQListener implements RocketMQListener<MessageExt> {
         try {
             // 1.解析信息
             body = new String(msg.getBody(), "UTF-8");
+            log.info("接收消息成功");
             MQEntity mqEntity = JSON.parseObject(body, MQEntity.class);
             Long orderId = mqEntity.getOrderId();
             if (orderId != null) {
