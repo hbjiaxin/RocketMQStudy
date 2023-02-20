@@ -36,7 +36,7 @@ public class TradeGoodsController implements GoodsApi {
     @GetMapping("{goodsId}")
     public R findOne(@PathVariable("goodsId") Long goodsId) {
         if (goodsId == null) {
-            return R.fail(ShopCode.SHOP_GOODS_NO_EXIST);
+            return R.fail(ShopCode.SHOP_REQUEST_PARAMETER_VALID);
         }
 
         TradeGoods goods = goodsService.getById(goodsId);

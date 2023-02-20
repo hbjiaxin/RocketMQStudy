@@ -1,9 +1,12 @@
 package com.study.pay.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.api.OrderApi;
 import com.study.api.PayApi;
 import com.study.common.constant.R;
 import com.study.common.constant.ShopCode;
+import com.study.entity.TradeOrder;
 import com.study.entity.TradePay;
 import com.study.pay.service.TradePayService;
 import org.apache.ibatis.annotations.Result;
@@ -37,6 +40,7 @@ public class TradePayController implements PayApi {
     @PostMapping
     @Override
     public R createPayment(@RequestBody TradePay pay) {
+        ObjectMapper objectMapper = new ObjectMapper();
         if (pay == null
                 || pay.getOrderId() == null
                 || pay.getPayAmount() == null
@@ -44,6 +48,14 @@ public class TradePayController implements PayApi {
             return R.fail(ShopCode.SHOP_REQUEST_PARAMETER_VALID);
         }
         // 1.判断订单支付状态
+        R result = orderApi.findOne(pay.getOrderId());
+        if (!result.getBaseCode().getSuccess()) {
+            return R.fail();
+        }
+        TradeOrder order = objectMapper.convertValue(result.getData(), TradeOrder.class);
+        if (!order.getOrderStatus().equals(ShopCode.SHOP_ORDER_CONFIRM.getCode())) {
+            return R.fail();
+        }
 
         // 2.设置订单的状态未支付
 

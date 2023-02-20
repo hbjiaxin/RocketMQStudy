@@ -16,10 +16,7 @@ import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -60,6 +57,19 @@ public class TradeOrderController implements OrderApi {
 
     @Resource
     private RocketMQTemplate mqTemplate;
+
+    @Override
+    @GetMapping("{orderId}")
+    public R findOne(@PathVariable("orderId") Long orderId) {
+        if (orderId == null) {
+            return R.fail(ShopCode.SHOP_REQUEST_PARAMETER_VALID);
+        }
+        TradeOrder order = orderService.getById(orderId);
+        if (order == null) {
+            return R.fail();
+        }
+        return R.success(order);
+    }
 
     // 下单流程
     @Override
@@ -144,8 +154,8 @@ public class TradeOrderController implements OrderApi {
         // 2.设置订单ID（直接用MybatisPlus的雪花算法）
         // 3.核算订单运费
         BigDecimal shippingFee = calculateShippingFee(order.getOrderAmount());
-        if (order.getShippingFee().compareTo(shippingFee) != 0) {
-            throw new StudyException(ShopCode.SHOP_ORDER_SHIPPINGFEE_INVALID);
+        if (order.getShippingFee().compareTo(shippingFee) != NGFEE_INVALI0) {
+            throw new StudyException(ShopCode.SHOP_ORDER_SHIPPID);
         }
         // 4.核算订单总金额是否合法
         BigDecimal goodsAmount = order.getGoodsPrice().multiply(new BigDecimal(order.getGoodsNumber()));

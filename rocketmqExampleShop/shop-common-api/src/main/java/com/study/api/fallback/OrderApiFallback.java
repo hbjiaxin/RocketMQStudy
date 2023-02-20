@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderApiFallback implements OrderApi {
     @Override
+    public R findOne(Long orderId) {
+        return R.fail();
+    }
+
+    @Override
     public R confirmOrder(TradeOrder order) {
         return R.fail();
     }

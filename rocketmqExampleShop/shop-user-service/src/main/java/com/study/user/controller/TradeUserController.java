@@ -36,11 +36,12 @@ public class TradeUserController implements UserApi {
     @Override
     @GetMapping("{userId}")
     public R findOne(@PathVariable("userId") Long userId) {
-        if (userId != null) {
-            TradeUser user = userService.getById(userId);
-            if (user != null) {
-                return R.success(user);
-            }
+        if (userId == null) {
+            return R.fail(ShopCode.SHOP_REQUEST_PARAMETER_VALID);
+        }
+        TradeUser user = userService.getById(userId);
+        if (user != null) {
+            return R.success(user);
         }
         return R.fail(ShopCode.SHOP_USER_NO_EXIST);
     }
