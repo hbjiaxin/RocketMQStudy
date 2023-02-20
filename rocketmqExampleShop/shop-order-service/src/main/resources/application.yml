@@ -1,0 +1,36 @@
+server:
+  port: 9005
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: order-service
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/trade?serverTimeZone=GMT%2B8
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+# 下单失败消息发送组
+mq:
+  order:
+    consumer:
+      group:
+        name: order_orderTopic_cancel_group
+    topic:
+      orderTopic
+    tag:
+      cancel: order_cancel
+
+
+#生产者
+rocketmq:
+  name-server: 192.168.200.102:9876;192.168.200.100:9876
+  producer:
+    group: orderProducerGroup

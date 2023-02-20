@@ -1,0 +1,19 @@
+server:
+  port: 9007
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: pay-service
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/trade?serverTimeZone=GMT%2B8
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+

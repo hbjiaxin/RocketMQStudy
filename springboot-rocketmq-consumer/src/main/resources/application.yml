@@ -1,0 +1,7 @@
+server:
+  port: 9001
+
+rocketmq:
+  name-server: 192.168.200.102:9876;192.168.200.100:9876
+  consumer:
+    group: my-group
