@@ -2,7 +2,6 @@ package com.study.api.fallback;
 
 import com.study.api.GoodsApi;
 import com.study.common.constant.R;
-import com.study.entity.TradeGoods;
 import org.springframework.stereotype.Component;
 
 @Component

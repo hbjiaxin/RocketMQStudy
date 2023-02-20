@@ -17,3 +17,11 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
 
+rocketmq:
+  name-server: 192.168.200.100:9876;192.168.200.102:9876
+  producer:
+    group: payProducerGroup
+
+mq:
+  topic: payTopic
+  tag: paid

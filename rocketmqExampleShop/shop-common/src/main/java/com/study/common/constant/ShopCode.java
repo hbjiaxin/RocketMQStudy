@@ -130,6 +130,11 @@ public interface ShopCode {
     //订单付款失败
     BaseCode SHOP_PAYMENT_PAY_ERROR = MSG(false, 70002, "订单支付失败");
 
+    // 持久化消息已处理
+    BaseCode SHOP_DATA_MESSAGE_SEND = MSG(true, 1, "消息还未发送成功");
+
+    // 持久化消息未处理
+    BaseCode SHOP_DATA_MESSAGE_NOT_SEND = MSG(false, 0, "消息发送成功");
 
     static BaseCode MSG(Boolean success, Integer code, String message) {
         return new BaseCode(success, code, message);

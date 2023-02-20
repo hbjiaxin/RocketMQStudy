@@ -66,7 +66,7 @@ public class TradeOrderController implements OrderApi {
         }
         TradeOrder order = orderService.getById(orderId);
         if (order == null) {
-            return R.fail();
+            return R.fail(ShopCode.SHOP_ORDER_INVALID);
         }
         return R.success(order);
     }
@@ -87,7 +87,7 @@ public class TradeOrderController implements OrderApi {
             // 5.使用余额
             reduceMoneyPaid(order);
             // 模拟异常（以上操作都对数据库进行修改数据，就得需要回退）
-            int i = 10 / 0;
+//            int i = 10 / 0;
             // 6.确认订单
             updateOrderStatus(order);
             // 7.返回成功状态
@@ -109,10 +109,9 @@ public class TradeOrderController implements OrderApi {
                 sendCancelOrder(topic, tag, mqEntity.getOrderId().toString(), JSON.toJSONString(mqEntity));
             } catch (Exception ex) {
                 e.printStackTrace();
-                return R.fail();
             }
+            return R.fail();
         }
-        return R.fail();
     }
 
     // 校验订单
@@ -154,8 +153,8 @@ public class TradeOrderController implements OrderApi {
         // 2.设置订单ID（直接用MybatisPlus的雪花算法）
         // 3.核算订单运费
         BigDecimal shippingFee = calculateShippingFee(order.getOrderAmount());
-        if (order.getShippingFee().compareTo(shippingFee) != NGFEE_INVALI0) {
-            throw new StudyException(ShopCode.SHOP_ORDER_SHIPPID);
+        if (order.getShippingFee().compareTo(shippingFee) != 0) {
+            throw new StudyException(ShopCode.SHOP_ORDER_SHIPPINGFEE_INVALID);
         }
         // 4.核算订单总金额是否合法
         BigDecimal goodsAmount = order.getGoodsPrice().multiply(new BigDecimal(order.getGoodsNumber()));

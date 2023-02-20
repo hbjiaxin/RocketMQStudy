@@ -27,6 +27,11 @@ mq:
       orderTopic
     tag:
       cancel: order_cancel
+  pay:
+    topic: payTopic
+    consumer:
+      group:
+        name: pay_payTopic_group
 
 
 #生产者
